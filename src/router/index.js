@@ -26,11 +26,12 @@ export default defineRouter(function (/* { store, ssrContext } */) {
   })
 
   Router.beforeEach((to, from, next) => {
-    const publicPages = ['/', '/register']
-    const isPublic = publicPages.includes(to.path)
+    // Use route names when possible to avoid issues with hash vs history modes
+    const publicNames = ['LoginPage', 'RegisterPage']
+    const isPublic = (to.name && publicNames.includes(to.name)) || to.path === '/' || to.path === '/register'
 
     if (!isPublic && !isAuthenticated()) {
-      next('/login')
+      next({ path: '/login' })
     } else {
       next()
     }
