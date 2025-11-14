@@ -91,6 +91,28 @@ Compilar para produção
 quasar build
 ```
 
+## ⚠️ Troubleshooting (Notificações do Navegador)
+
+Se o botão de notificações não aparece ou você não recebe o prompt do navegador, verifique os pontos abaixo:
+
+1. Permissão do navegador
+   - Browsers modernos (Firefox, Chrome) exigem que Notification.requestPermission() seja chamado a partir de um gesto do usuário (por exemplo, um clique). A aplicação agora exibe um botão "Ativar notificações" próximo ao ícone de sino — clique nele para abrir o prompt.
+   - Se você recusar a permissão, o estado permanecerá como "denied" e será necessário alterar manualmente nas configurações do navegador para reativar.
+
+2. Testando localmente
+   - Em localhost, notificações são permitidas via HTTP em desenvolvimento. Em produção, o site precisa estar servido via HTTPS para usar Notifications.
+
+3. Verifique o Console do navegador
+   - Mensagem esperada quando a permissão é solicitada fora de um gesto do usuário:
+     "The Notification permission may only be requested from inside a short running user-generated event handler." — isso indica que o requestPermission foi chamado no load; atualizar a página e usar o botão resolve.
+
+4. Fallback
+   - Se o navegador não suportar a API de Notifications ou a permissão for negada, o aplicativo mostrará notificações in-app (toasts) para garantir que o usuário receba os lembretes.
+
+5. Ainda com problemas?
+   - Abra DevTools -> Console e Network (filtrar XHR) e verifique se as requisições para /api/pet-care-history e /api/pets retornam 200.
+   - Caso prefira, exporte um HAR e o console logs e envie para análise.
+
 ## 👨‍💻 <a id="equipe"></a>Equipe de Desenvolvimento
 
 - IGOR COSTA BRAZ
