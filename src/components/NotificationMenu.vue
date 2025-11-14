@@ -67,9 +67,23 @@ export default {
   beforeUnmount() {
     if (this.pollInterval) clearInterval(this.pollInterval)
   },
-  methods: {
+    methods: {
     toggleMenu() {
       this.menuOpen = !this.menuOpen
+    },
+    async askNotificationPermission() {
+      // must be called from a user gesture
+      if (!('Notification' in window)) {
+        this.$q.notify({ message: 'Notificações não são suportadas pelo navegador.', color: 'negative' })
+        return
+      }
+
+      const perm = await Notification.requestPermission()
+      if (perm === 'granted') {
+        this.$q.notify({ message: 'Notificações ativadas', color: 'positive' })
+      } else if (perm === 'denied') {
+        this.$q.notify({ message: 'Permissão negada. Ative nas configurações do navegador.', color: 'warning' })
+      }
     },
     async fetchNotifications() {
       const petStore = usePetStore()
