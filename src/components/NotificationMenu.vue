@@ -11,7 +11,6 @@
           <!-- If permission is undecided, show a small action button to request it (user gesture)
                Rendered with a visible background so it's not lost in the header color -->
           <q-btn
-            v-if="notificationPermission === 'default'"
             dense
             unelevated
             class="enable-notif-btn q-ml-sm"
@@ -94,9 +93,6 @@ export default {
     } else {
       this.notificationPermission = 'unsupported'
     }
-
-    // Debug log removed to satisfy linting rules. If you need debug output,
-    // re-enable a guarded log during development.
 
     this.fetchNotifications()
 
