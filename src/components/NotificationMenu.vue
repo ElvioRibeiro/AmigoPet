@@ -7,8 +7,18 @@
             <q-icon name="notifications" size="24px" />
             <q-badge v-if="notifications.length > 0" :label="notifications.length" color="red" floating rounded />
           </q-btn>
-          <!-- If permission is undecided, show a small action button to request it (user gesture) -->
-          <q-btn v-if="notificationPermission === 'default'" dense flat small class="q-ml-sm" @click.stop="askNotificationPermission" aria-label="Ativar notificações">
+
+          <!-- If permission is undecided, show a small action button to request it (user gesture)
+               Rendered with a visible background so it's not lost in the header color -->
+          <q-btn
+            v-if="notificationPermission === 'default'"
+            dense
+            unelevated
+            class="enable-notif-btn q-ml-sm"
+            @click.stop="askNotificationPermission"
+            aria-label="Ativar notificações"
+            title="Ativar notificações"
+          >
             <q-icon name="notifications_active" size="20px" />
           </q-btn>
         </div>
@@ -86,7 +96,6 @@ export default {
     }
 
     // Debug: log mount and permission state to help diagnose missing button
-    // This will appear in the browser console when the layout loads
     try {
       // eslint-disable-next-line no-console
       console.log('[NotificationMenu] mounted, permission=', this.notificationPermission)
@@ -251,4 +260,20 @@ export default {
 }
 /* increase click area and keep it aligned */
 .notification-btn { padding: 6px; }
+
+/* Make enable button visible on header */
+.enable-notif-btn {
+  background: rgba(255,255,255,0.12) !important;
+  border-radius: 8px;
+  padding: 6px !important;
+  min-width: 36px;
+  min-height: 36px;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  z-index: 1110;
+}
+.enable-notif-btn :deep(.q-icon) {
+  color: white !important;
+}
 </style>
