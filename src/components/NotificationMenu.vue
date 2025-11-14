@@ -85,6 +85,13 @@ export default {
       this.notificationPermission = 'unsupported'
     }
 
+    // Debug: log mount and permission state to help diagnose missing button
+    // This will appear in the browser console when the layout loads
+    try {
+      // eslint-disable-next-line no-console
+      console.log('[NotificationMenu] mounted, permission=', this.notificationPermission)
+    } catch (e) {}
+
     this.fetchNotifications()
     // poll every 2 minutes
     this.pollInterval = setInterval(() => this.fetchNotifications(), 2 * 60 * 1000)
