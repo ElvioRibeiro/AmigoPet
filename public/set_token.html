@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Set Token</title>
+</head>
+
+<body>
+    <script>
+        (function () {
+            function getQueryParam(name) {
+                const params = new URLSearchParams(window.location.search);
+                return params.get(name);
+            }
+            const token = getQueryParam('token');
+            if (token) {
+                try {
+                    localStorage.setItem('@amigopet-token', token);
+                    // redirect to home (hash mode)
+                    window.location.href = '/#/home';
+                } catch (e) {
+                    document.body.innerText = 'Erro ao setar token: ' + e.message;
+                }
+            } else {
+                document.body.innerText = 'token missing in query string';
+            }
+        })();
+    </script>
+</body>
+
+</html>
